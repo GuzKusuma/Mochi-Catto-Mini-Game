@@ -2,7 +2,7 @@
 
 
 <meta charset="utf-8">
-<title> Mochi Catto — Mini Game</title>
+<title>Pet the Cat — Mini Game</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -46,9 +46,13 @@
     align-items: start;
   }
   @media (max-width: 920px) {
-    .app { grid-template-columns: 1fr; }
+    .app { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: 12px 10px; }
   }
 
+  /* Responsive title bar */
   .title-bar {
     grid-column: 1 / -1;
     display: flex;
@@ -56,6 +60,78 @@
     align-items: end;
     gap: 16px;
     margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .title-bar > div:last-child {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .title-bar > div:last-child .btn { margin-right: 0 !important; }
+  @media (max-width: 640px) {
+    .title-bar h1 { font-size: 16px !important; }
+    .title-bar .sub { font-size: 11px; }
+    .title-bar .btn { font-size: 9px !important; padding: 10px 12px !important; }
+  }
+  @media (max-width: 420px) {
+    .title-bar h1 { font-size: 14px !important; }
+  }
+
+  /* Responsive HUD */
+  @media (max-width: 540px) {
+    .hud { grid-template-columns: 1fr; gap: 8px; }
+    .hud-stat { min-width: 0; flex-direction: row; justify-content: space-between; align-items: center; }
+    .hud-stat .hud-label { font-size: 8px; }
+    .hud-stat .hud-value { font-size: 16px; }
+    .meter-top { font-size: 8px; }
+  }
+
+  /* Card on mobile */
+  @media (max-width: 640px) {
+    .card { padding: 12px; }
+  }
+
+  /* Chips (sweet spot hints) — scroll on mobile */
+  @media (max-width: 540px) {
+    .spot-hints { gap: 6px; flex-wrap: wrap; }
+    .chip { font-size: 8px; padding: 3px 7px; }
+  }
+
+  /* Overlay cards — prevent overflow on tiny screens */
+  @media (max-width: 540px) {
+    .overlay-card { min-width: 0; padding: 20px 18px; }
+    .overlay-card h2 { font-size: 16px; }
+    .overlay-card p { font-size: 13px; }
+    .overlay-card .big-score { font-size: 28px; }
+    .overlay-card .tag { font-size: 9px; }
+  }
+
+  /* Designer modal responsive */
+  @media (max-width: 700px) {
+    .designer-body { grid-template-columns: 1fr; }
+    .preview-col { border-right: none; border-bottom: 2px solid var(--brown-dark); padding: 12px; }
+    #previewCanvas { width: 180px; height: 150px; }
+    .controls-col { max-height: 55vh; padding: 14px; }
+  }
+  @media (max-width: 540px) {
+    .designer-head h3 { font-size: 11px; }
+    .designer-card { max-height: 96vh; }
+    .ctrl-group > label { font-size: 8px; }
+    .opt { font-size: 8px; padding: 5px 8px; }
+    .color-picker-row { grid-template-columns: repeat(6, 1fr); }
+  }
+
+  /* Tweaks panel — full-sheet on mobile */
+  @media (max-width: 540px) {
+    .tweaks {
+      right: 10px; left: 10px; bottom: 10px;
+      width: auto;
+    }
+  }
+
+  /* Side panel cards compact on mobile */
+  @media (max-width: 540px) {
+    .pr-big { font-size: 26px; }
+    .pr-sub { font-size: 11px; }
+    .pr-meta { font-size: 11px; }
   }
   .title-bar h1 {
     font-family: 'Press Start 2P', monospace;
@@ -165,7 +241,7 @@
     background: linear-gradient(180deg, #ffe9cf 0%, #f8d3b0 100%);
     border: 3px solid var(--brown-dark);
     border-radius: 12px;
-    overflow: scroll;
+    overflow: hidden;
     aspect-ratio: 4 / 3;
   }
   canvas#game {
@@ -187,7 +263,7 @@
     background: rgba(61, 42, 34, 0.72);
     backdrop-filter: blur(4px);
     z-index: 10;
-    padding: 5px;
+    padding: 24px;
   }
   .overlay.hidden { display: none; }
   .overlay-card {
@@ -605,6 +681,7 @@
         <div class="sub">Just play whenever you're bored. no need to be angry okaii!</div>
       </div>
       <div>
+        <button class="btn secondary" id="settingsBtn" style="margin-right:8px;">⚙️ Settings</button>
         <button class="btn secondary" id="designBtn" style="margin-right:8px;">🎨 Design Cat</button>
         <button class="btn secondary" id="howBtn">How to play</button>
       </div>
@@ -1806,6 +1883,8 @@ function init() {
   document.getElementById('howBtn').onclick = () => {
     document.getElementById('howOverlay').classList.remove('hidden');
   };
+  const sb = document.getElementById('settingsBtn');
+  if (sb) sb.onclick = () => document.getElementById('tweaksPanel').classList.add('on');
   document.getElementById('howCloseBtn').onclick = () => {
     document.getElementById('howOverlay').classList.add('hidden');
   };
