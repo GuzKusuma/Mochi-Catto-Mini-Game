@@ -2,7 +2,7 @@
 
 
 <meta charset="utf-8">
-<title>Mochi Catto — Mini Game</title>
+<title> Mochi Catto — Mini Game</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -165,7 +165,7 @@
     background: linear-gradient(180deg, #ffe9cf 0%, #f8d3b0 100%);
     border: 3px solid var(--brown-dark);
     border-radius: 12px;
-    overflow: hidden;
+    overflow: scroll;
     aspect-ratio: 4 / 3;
   }
   canvas#game {
@@ -187,7 +187,7 @@
     background: rgba(61, 42, 34, 0.72);
     backdrop-filter: blur(4px);
     z-index: 10;
-    padding: 24px;
+    padding: 5px;
   }
   .overlay.hidden { display: none; }
   .overlay-card {
@@ -605,7 +605,6 @@
         <div class="sub">Just play whenever you're bored. no need to be angry okaii!</div>
       </div>
       <div>
-        <button class="btn secondary" id="settingsBtn" style="margin-right:8px;">⚙️ Settings</button>
         <button class="btn secondary" id="designBtn" style="margin-right:8px;">🎨 Design Cat</button>
         <button class="btn secondary" id="howBtn">How to play</button>
       </div>
@@ -1807,8 +1806,6 @@ function init() {
   document.getElementById('howBtn').onclick = () => {
     document.getElementById('howOverlay').classList.remove('hidden');
   };
-  const sb = document.getElementById('settingsBtn');
-  if (sb) sb.onclick = () => document.getElementById('tweaksPanel').classList.add('on');
   document.getElementById('howCloseBtn').onclick = () => {
     document.getElementById('howOverlay').classList.add('hidden');
   };
